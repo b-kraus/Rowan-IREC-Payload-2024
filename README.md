@@ -1,2 +1,6 @@
-# Rowan-IREC-Payload-2024
-Rowan IREC Payload Sensor Code for the Space Cup America 2024 Competition
+Raspberry Pi Gas Sensor MQ Python Example
+================
+
+Tutorial (german): https://tutorials-raspberrypi.de/raspberry-pi-gas-sensor-mq2-konfigurieren-und-auslesen
+
+Tutorial (english): https://tutorials-raspberrypi.com/configure-and-read-out-the-raspberry-pi-gas-sensor-mq-x
