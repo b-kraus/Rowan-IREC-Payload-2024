@@ -1,3 +1,8 @@
+#Things to do in terminal before running:
+#sudo apt-get install python3-dev python3-pip python3-smbus i2c-tools -y
+#sudo pip3 install adafruit-circuitpython-ADXL34x
+#must enable I2C
+
 import time
 import board
 import busio
