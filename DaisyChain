@@ -1,1 +1,45 @@
-#Daisy chain
+#Daisy chain w/ ADXL, BME no MQ yet
+
+import time
+import board
+import busio
+import adafruit_adxl34x
+
+#ADXL
+i2c = busio.I2C(board.SCL, board.SDA)
+accelerometer = adafruit_adxl34x.ADXL345(i2c)
+accelerometer.enable_freefall_detection(threshold=10, time=25)
+accelerometer.enable_motion_detection(threshold=18)
+accelerometer.enable_tap_detection(tap_count=1, threshold=20, duration=50, latency=20, window=255)
+
+while True:
+    print("%f %f %f"%accelerometer.acceleration)
+    print("Dropped: %s"%accelerometer.events["freefall"])
+    print("Tapped: %s"%accelerometer.events['tap'])
+    print("Motion detected: %s"%accelerometer.events['motion'])
+    time.sleep(0.5)
+
+#BME
+import adafruit_bme680
+
+# Create sensor object, communicating over the board's default I2C bus
+i2c = board.I2C()  # uses board.SCL and board.SDA
+# i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
+bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c, debug=False)
+
+# change this to match the location's pressure (hPa) at sea level
+bme680.sea_level_pressure = 1013.25
+
+# You will usually have to add an offset to account for the temperature of
+# the sensor. This is usually around 5 degrees but varies by use. Use a
+# separate temperature sensor to calibrate this one.
+temperature_offset = -5
+
+while True:
+    print("\nTemperature: %0.1f C" % (bme680.temperature + temperature_offset))
+    print("Gas: %d ohm" % bme680.gas)
+    print("Humidity: %0.1f %%" % bme680.relative_humidity)
+    print("Pressure: %0.3f hPa" % bme680.pressure)
+    print("Altitude = %0.2f meters" % bme680.altitude)
+
+    time.sleep(1)
