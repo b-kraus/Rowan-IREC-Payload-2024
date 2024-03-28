@@ -1,10 +1,12 @@
-#Daisy chain w/ ADXL, BME no MQ yet
+#Daisy chain w/ ADXL, BME MQ yet
 
 import time
 import board
 import busio
+import sys
 import adafruit_adxl34x
 import adafruit_bme680
+from mq import *
 
 #ADXL
 i2c = busio.I2C(board.SCL, board.SDA)
@@ -18,8 +20,12 @@ i2c = board.I2C()  # uses board.SCL and board.SDA
 bme680 = adafruit_bme680.Adafruit_BME680_I2C(i2c, debug=False)
 bme680.sea_level_pressure = 1013.25
 
-
-while True:
+#MQ
+try:
+    print("Press CTRL+C to abort.")
+    
+    mq = MQ();
+    while True:
     print("Accelerometer Data:)
     print("%f %f %f"%accelerometer.acceleration)
     print("Dropped: %s"%accelerometer.events["freefall"])
@@ -31,6 +37,17 @@ while True:
     print("Humidity: %0.1f %%" % bme680.relative_humidity)
     print("Pressure: %0.3f hPa" % bme680.pressure)
     print("Altitude = %0.2f meters" % bme680.altitude)
+    perc = mq.MQPercentage()
+        sys.stdout.write("\r")
+        sys.stdout.write("\033[K")
+        sys.stdout.write("LPG: %g ppm, CO: %g ppm, Smoke: %g ppm" % (perc["GAS_LPG"], perc["CO"], perc["SMOKE"]))
+        sys.stdout.flush()
+        time.sleep(0.1)
+
+except:
+    print("\nAbort by user")
+
+
 
     time.sleep(1)
 
