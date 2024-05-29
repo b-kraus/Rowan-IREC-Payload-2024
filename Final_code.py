@@ -8,12 +8,17 @@ import adafruit_adxl34x
 import adafruit_bme680
 
 
-#ADXL
-i2c = busio.I2C(board.SCL, board.SDA)
-accelerometer = adafruit_adxl34x.ADXL345(i2c)
-accelerometer.enable_freefall_detection(threshold=10, time=25)
-accelerometer.enable_motion_detection(threshold=18)
-accelerometer.enable_tap_detection(tap_count=1, threshold=20, duration=50, latency=20, window=255)
+i2c = board.I2C()  # uses board.SCL and board.SDA
+# i2c = board.STEMMA_I2C()  # For using the built-in STEMMA QT connector on a microcontroller
+
+# For ADXL343
+accelerometer = adafruit_adxl34x.ADXL343(i2c)
+# For ADXL345
+# accelerometer = adafruit_adxl34x.ADXL345(i2c)
+
+while True:
+    print("%f %f %f" % accelerometer.acceleration)
+    time.sleep(0.2)
 
 #BME
 i2c = board.I2C()  # uses board.SCL and board.SDA
