@@ -25,6 +25,6 @@ def draw_temperaturegraphs():
   ax.plot(xs, ys)
   plt.xticks(rotation=45, ha='right')
   plt.subplots_adjust(bottom=0.30)
-  plt.title('TMP102 Temperature over Time')
+  plt.title('Temperature over Time')
   plt.ylabel('Temperature (deg C)')
   plt.savefig('temperature.png', dpi = 300, bbox_inches='tight')
