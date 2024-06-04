@@ -6,8 +6,20 @@ import busio
 import sys
 import adafruit_adxl34x
 import adafruit_bme680
+import AltitudeGraph
+import GasGraph
+import HumidityGraph
+import PressureGraph
+import TemperatureGraph
+
+
 
 i2c = board.I2C()
+create_altitude_graph()
+create_gas_graph()
+create_humidity_graph()
+create_pressure_graph()
+create_temperature_graph()
 
 while True:
     f = open("accceleration.csv", newline = "")
@@ -36,3 +48,8 @@ while True:
     rc.writerow(["Altitude = %0.2f meters" % bme680.altitude])
     time.sleep(.3)
 
+    altitudegraphs()
+    gasgraphs()
+    humiditygraphs()
+    pressuregraphs()
+    temperaturegraphs()
